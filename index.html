@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="jquery-1.8.3.min.js"></script>
+    <script src="jquery.color.js"></script>
+    <script src="loadh5.js"></script>
+    <script type="text/javascript">
+        var pix=1/window.devicePixelRatio;
+        var ua = navigator.userAgent;
+        if (/Android (\d+\.\d+)/.test(ua)){
+            var version = parseFloat(RegExp.$1);
+            if(version>2.3){
+                document.write('<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale='+pix+', maximum-scale='+pix+', minimum-scale='+pix+'"/>');
+            }else{
+                document.write('<meta name="viewport" content="width=750, target-densitydpi=device-dpi">');
+            }
+        }
+        else {
+            document.write('<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale='+pix+', maximum-scale='+pix+', minimum-scale='+pix+'"/>');
+        }
+
+        var supportsOrientationChange = 'onorientationchange' in window ? 'orientationchange' : 'resize';
+        var timeoutId;
+        function setRem() {
+            var clientWidth = document.documentElement.clientWidth;
+            var nowPX = clientWidth / 750 * 100;
+            document.documentElement.style.fontSize = nowPX + 'px';
+        }
+        setRem();
+        window.addEventListener(supportsOrientationChange, function () {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(function () {
+                setRem();
+            }, 300);
+        }, false);
+
+        /*判断横竖屏*/
+        function hengshuping(){
+            if(window.orientation==180||window.orientation==0){
+                console.log("OK");
+            }
+            if(window.orientation==90||window.orientation==-90){
+                alert("竖屏观看更佳！")
+            }
+        }
+        window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+
+    </script>
+
+<!--    <style>
+        *{margin:0;padding:0;}
+        textarea{border:0;}
+        body{background:black;color:white;font-size: 0.25rem;}
+        .stage{display: none;}
+        .text{width:7rem;height:3.5rem;border:1px solid white;left:50%;margin-left:-3.5rem;top:60%;position:absolute;background:rgba(0,0,0,0.5);z-index: 50;}
+        .text>textarea{position:absolute;width:6.4rem;height:2.9rem;background:none;font-size:0.4rem;padding:0.3rem;color:white;display:none;}
+        .text>textarea:first-child{display: block;}
+        .select-div{position: absolute;left:50%;margin-left:-2rem;top:70%;z-index:50;display: none;}
+        .select-div02{top:65%;}
+        .select-div03{margin-left: -3rem;  top: 65%;}
+        .han{position: absolute;left:60%;top:5rem;width:0.5rem;z-index: 50;opacity:0;}
+        .bg-shilaimu{position: absolute;left:50%;margin-left:-2rem;top:4rem;width:4rem;height:3rem;z-index: 50;}
+        .form span,.form-grow span{border:1px solid white;text-align: center;display: inline-block;float:left;padding:0.2rem;margin:0.2rem;}
+        .form-grow span{margin:0.1rem;}
+        .tap{position: absolute;bottom:0;right:0.5rem;font-size: 0.4rem;color:white;display: none;}
+        .flashOnOff{animation:flashOnOff 1s linear infinite}
+        .bg01,.bg02{position: absolute;top:0;height:100%;display: none;}
+
+        .gameover,.gamestart{position: absolute;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.7);font-size: 0.4rem;color:white;z-index: 51;display: none;text-align: center;line-height:4rem;}
+        .gamestart{display: block;}
+        .replay,.start{position:absolute;top:50%;left:50%;margin-left:-1rem;margin-top:-1rem;border:1px solid white;color:white;padding:0.2rem;line-height: 1rem;}
+        .bg01{left:0;}
+        .bg02{right:0;}
+        .friend{position: absolute;top:4rem; width:2rem;display: none;}
+        .friend01{left:0.5rem;width:4rem;}
+        .friend02{right:1rem;}
+
+        @keyframes flashOnOff {
+            from{opacity:0}
+            to{opacity:1}
+        }
+
+    </style>-->
+</head>
+<body>
+<div class="loading">
+    <img src="images/shilaimu.png" class="koudai-logo">
+    <div class="loading-text">
+        <span class="loading-bar"></span>
+        <span class="loading-percent"></span>
+    </div>
+</div>
+<div id="main">
+    <!--开始界面-->
+    <div class="gamestart">
+        <a class="start">开始游戏</a>
+    </div>
+    <!--结束界面 -->
+    <div class="gameover">
+        <p>GAME OVER</p>
+        <a class="replay">重玩一次</a>
+    </div>
+    <!--舞台-->
+    <div class="stage">
+        <img src="images/shilaimu.png" class="bg-shilaimu">
+        <div class="text">
+            <div class="text1"></div>
+            <div class="text2"></div>
+            <div class="text3"></div>
+            <div class="text4"></div>
+            <div class="text5"></div>
+            <div class="text6"></div>
+            <div class="text7"></div>
+            <div class="text8"></div>
+            <div class="text9"></div>
+            <div class="text10"></div>
+            <div class="text11"></div>
+            <div class="text12"></div>
+            <div class="text13"></div>
+            <!--汇合1-->
+            <div class="text14"></div>
+            <div class="text15"></div>
+            <div class="text16"></div>
+            <span class="tap">TAP</span>
+        </div>
+        <!--选项-->
+        <div class="select-div select-div01" id="sex-div">
+            <div class="form">
+                <span>男孩</span>
+                <span>女孩</span>
+            </div>
+        </div>
+        <div class="select-div select-div02" id="grow-div">
+        <div class="form form-grow">
+            <span>一路氪金，称霸服务器！</span>
+            <span>花时间肝，不花钱也能玩得好！</span>
+        </div>
+        </div>
+        <div class="select-div select-div03" id="gucci-div">
+            <div class="form form-gucci">
+                <span>好吧，谁叫我是万中无一的高手呢~</span>
+                <span>能反悔么，我想选刚才的肌肉男......</span>
+            </div>
+        </div>
+        <div class="select-div select-div04" id="equip-div">
+            <div class="form form-equip">
+                <span>好TM划算啊，我要买！</span>
+                <span>出门带条狗，装备全靠捡.....</span>
+            </div>
+        </div>
+
+        <!--stage1-->
+        <img src="images/han.png" class="han">
+        <!--stage3-->
+        <img src="images/bg01.jpg" class="bg bg01">
+        <img src="images/bg02.jpg" class="bg bg02">
+        <!--stage6-->
+        <img src="images/man.png" class="friend friend01" number="1">
+        <img src="images/women.png" class="friend friend02" number="2">
+        <img src="images/hand.png" class="hand hand1">
+        <img src="images/hand.png" class="hand hand2">
+        <!--stage8A-->
+        <img src="images/heart.png" class="heart">
+        <!--stage10-->
+        <img src="images/bg03.jpg" class="bg bg03">
+    </div>
+</div>
+<div id="fight">
+    <img src="images/monster.png" class="monster">
+    <div class="blood blood1">
+        <p>HP</p>
+        <p class="last-blood1">100</p>
+    </div>
+    <div class="blood blood2">
+        <p>HP</p>
+        <p class="last-blood2">100</p>
+    </div>
+    <div class="fight-buttons">
+        <button class="attack">攻击</button>
+        <button class="defend">防守</button>
+        <button class="run">逃跑</button>
+    </div>
+    <p class="dic">10</p>
+    <img src="images/shai.gif" class="shai">
+    <div class="block"></div>
+    <!--胜利-->
+    <div class="success">胜利</div>
+</div>
+
+
+</body>
+<script src="jquery.typetype.js"></script>
+<script>
+    $(function(){
+        var sex;//性别
+        var friend;//搭档
+        var fightResult;//战斗结果
+
+        //剧情
+        var stage={
+            stage1:function(){
+                $('.stage').show();
+                $('.text1').typetype(
+                    '欢迎来到《勇者斗恶龙》的世界......首先你要确定你的性别？',
+                    {
+                        e: 0,
+                        t: 100,
+                        callback: function (){
+
+                            $(".select-div01").show();
+                            $(".select-div01 span").on('click',function(){
+                                var i=$(this).index();
+                                sex=$(this).html();
+                                $(this).parent().parent().hide();
+                                $('.text1').remove();
+                                if(i==0){
+                                    $('.han').animate({opacity:'1',top:'+=0.2rem'},1500,function(){
+                                        $(this).fadeOut();
+                                    });
+                                }
+
+                                $('.text2').show().typetype("原来你是"+sex+"子啊........",{
+                                    t:100,
+                                    e:0,
+                                    callback: stage.stage2()
+                                });
+                            });
+                        }
+                    }
+                );
+            },
+            stage2:function(){
+                $('.tap').show().addClass('flashOnOff');
+                $('.text').one('click',function(){
+                    $('.text2').hide();
+                    $('.tap').hide();
+                    $('.text3').show().typetype("那么开始我们的冒险吧！",{
+                        t:100,
+                        e:0,
+                        callback: stage.stage3()
+                    });
+                });
+            },
+            stage3:function(){
+                $('.bg-shilaimu').animate({top:"5rem"},300,function(){
+                    $(this).animate({top:"-5rem"},1000)
+                });
+
+                $('body').animate({backgroundColor:'white'},2000,function(){
+                    $('.text').fadeOut();
+                    $('.bg01').fadeIn().animate({left:'-3rem'},3000,function(){
+                        $(this).fadeOut(300,function(){
+                            $('.bg02').fadeIn().animate({right:'-3rem'},3000,function(){
+                                stage.stage4()
+                            })
+                        })
+                    })
+                });
+            },
+            stage4:function(){
+                $('.text').fadeIn();
+                $('.bg-shilaimu').css({top:'4rem'}).show();
+                $('.text3').hide();
+                $('.text4').show().typetype(
+                    '这个游戏虽然是免费的，但不代表你不花钱就能玩的长久！',
+                    {
+                        e:0,
+                        t:100,
+                        callback:function(){
+                            $('.tap').show();
+                            $(this).one('click',function(){
+                                $('.tap').hide();
+                                $(this).hide();
+                                $('.text5').show().typetype(
+                                    '所以说，从一开始就考虑好成长路线,是非常非常重要的......',
+                                    {
+                                        e: 0,
+                                        t: 100,
+                                        callback:stage.stage5()
+
+                                    }
+                                )
+                            });
+                        }
+                    }
+                )
+
+            },
+            stage5:function(){
+                $('.tap').show();
+                $('.text5').one('click',function(){
+                    $(this).hide();
+                    $('.tap').hide();
+                    $('.text6').show().typetype(
+                        '那么你会选择什么样的成长路线呢？',
+                        {
+                            e:0,
+                            t:100,
+                            callback:function(){
+                                $(".select-div02").show();
+                                $(".select-div02 span").on('click',function(){
+                                    var i=$(this).index();
+                                    if(i==0){
+                                        $(this).parent().parent().hide();
+                                        $('.text6').remove();
+                                        $('.tap').show();
+                                        $('.text7').show().typetype("原来你是万中无一的高手（土豪）啊........《氪金斗恶龙X》欢迎你的加入！",{
+                                            t:100,
+                                            e:0,
+                                            callback:stage.stage6()
+                                        });
+                                    }
+                                    else{
+                                        $('.gameover').fadeIn(1000);
+                                    }
+
+                                });
+                            }
+                        }
+                    )
+                })
+
+            },
+            stage6:function(){
+                $('.text7').one('click',function(){
+                    $(this).hide();
+                    $('.text8').show().typetype(
+                        '俗话说，好的搭档是成功的一半，你会选择什么样的搭档来辅佐自己呢？',
+                        {
+                            e:0,
+                            t:100,
+                            callback:function(){
+                                $('.bg-shilaimu').fadeOut(300);
+                                $('.hand').fadeIn();
+                                $('.friend').fadeIn(300).one('click',function(){
+                                    $('.hand').hide();
+                                    friend=$(this).attr('number');
+                                    $('.friend').fadeOut();
+                                    if(friend==1){
+                                        $('.friend01').fadeIn().css({width:'10rem',left:'0'});
+                                        $('.text8').remove();
+                                        $('.text9').show().typetype(
+                                            "肌肉男：嗨！原来和我结伴而行的是一位"+sex+"子啊！你放心，我的肌肉在这个世界无人能挡！",
+                                            {
+                                                e:0,
+                                                t:100,
+                                                callback:stage.stage7A()
+                                            }
+                                        )
+                                    }
+                                    else if(friend==2){
+                                        $('.friend02').fadeIn().css({width:'8rem'});
+                                        $('.text8').remove();
+                                        $('.text9').show().typetype(
+                                            "神秘女孩：是"+sex+"子就好，我很喜欢呦！还好你没有选那个肌肉男，他只有肌肉没有脑子，说不定刚出村就会挂掉让你花钱复活......",
+                                            {
+                                                e:0,
+                                                t:100,
+                                                callback:stage.stage7B()
+                                            }
+                                        )
+                                    }
+                                });
+
+
+                            }
+                        }
+
+                    );
+                });
+
+            },
+            stage7A:function(){
+                $('.tap').show();
+                $('.text9').one('click',function(){
+                    $(this).remove();
+                    $('.text10').show().typetype(
+                        '肌肉男：话说我看你穿的破破烂烂的，这怎么能出去冒险呢，正好我这里有一套新手装备，不仅耐久高，弓箭也无法伤你分毫呦！',
+                        {
+                            t:100,
+                            e:0,
+                            callback:function(){
+                                $('.text10').one('click',function(){
+                                    $(this).hide();
+                                    $('.text11').show().typetype(
+                                        '现在只需699元，真的很划算呦！',
+                                        {
+                                            t:100,
+                                            e:0,
+                                            callback:stage.stage8A()
+                                        }
+                                    )
+                                })
+                            }
+                        }
+                    )
+                })
+            },
+            stage7B:function(){
+                $('.tap').show();
+                $('.text9').one('click',function(){
+                    $(this).remove();
+                    $('.text10').show().typetype(
+                        '神秘女孩：对了，这个游戏有个规定，如果想带女孩子出村冒险，需要氪金699元给女孩子买个背包（gucci）才行~',
+                        {
+                            t:100,
+                            e:0,
+                            callback:function(){
+                                $('.tap').show();
+                                $('.text10').one('click',function(){
+                                    $(this).remove();
+                                    $('.text11').show().typetype(
+                                        '我：.......这是什么破规矩？！而且为什么是GUCCI包？？你以为是出去逛街么？？',
+                                        {
+                                            t:100,
+                                            e:0,
+                                            callback:function(){
+                                                $('.text11').one('click',function () {
+                                                    $(this).remove();
+                                                    $('.text12').show().typetype(
+                                                        '神秘女子：你考虑清楚喽~',
+                                                        {
+                                                            t:100,
+                                                            e:0,
+                                                            callback:stage.stage8B()
+                                                        }
+                                                    )
+                                                })
+                                            }
+                                        }
+                                    )
+                                })
+                            }
+                        }
+                    )
+                })
+            },
+            stage8B:function(){
+                $('.select-div03').show();
+                $(".select-div03 span").one('click',function(){
+                    var i=$(this).index();
+                    if(i==0){
+                        $(this).parent().parent().hide();
+                        $('#gucci-div').hide();
+                        $('.text12').remove();
+                        $('.tap').show();
+                        $('.friend02').animate({top:'-=0.4rem'},200,function(){
+                            $(this).animate({top:'+=0.4rem'},200)
+                        });
+                        $('.heart').animate({opacity:'1',top:'-=0.2rem'},1500,function(){
+                            $(this).fadeOut();
+                        });
+                        $('.text13').show().typetype("这就对了，看来你很上道嘛！",{
+                            t:100,
+                            e:0,
+                            callback:stage.stage10()
+                        });
+                    }
+                    else{
+                        $('#gucci-div').hide();
+                        $('.gameover').fadeIn(1000);
+                    }
+
+                });
+            },
+            stage8A:function(){
+                $('#equip-div').show();
+                $('#equip-div span').one('click',function(){
+                    $(this).parent().parent().hide();
+                    var i=$(this).index();
+                    if(i==0){
+                        $('.text11').remove();
+                        $('.text12').show().typetype(
+                            '这就对了，有备无患嘛！',
+                            {
+                                t:100,
+                                e:0,
+                                callback:stage.stage10()
+                            }
+                        )
+                    }
+
+                })
+            },
+            //进入战斗
+            stage10:function(){
+                $('.text12,.text13').one('click',function(){
+                    $(this).remove();
+                    $('#main').addClass('shake');
+                    $('.text14').show().typetype(
+                        '怎么回事？地震了？！',
+                        {
+                            t:100,
+                            e:0,
+                            callback:function(){
+                                $('.text14').one('click',function(){
+                                    $('.bg03').fadeIn().animate({left:'-=9rem'},2000,function(){
+                                        $(this).fadeOut(200,function(){
+                                            $('#main').removeClass('shake');
+                                            $('.text14').hide();
+                                            $('.text15').show().typetype(
+                                                '怪物来攻击了！跟我上！',
+                                                {
+                                                    t:100,
+                                                    e:0,
+                                                    callback:stage.stage11()
+                                                }
+                                            )
+                                        });
+                                    })
+                                })
+                            }
+                        }
+                    )
+                })
+            },
+            stage11:function(){
+                $('.text15').one('click',function(){
+                    $('#main').fadeOut();
+                    $('#fight').fadeIn();
+                });
+            },
+            stage12:function(){
+                $('.text15').hide();
+                $('.text16').show().typetype(
+                    '干得好！另外，你还需要做一件事，那就是去下载《勇者斗恶龙X》客户端，咱们有缘再见！',
+                    {
+                        t:100,
+                        e:0
+                    }
+                )
+            }
+        };
+
+        //游戏执行
+        $('.start').on('click',function(){
+            $(this).parent().fadeOut(300);
+            stage.stage1();
+        });
+
+        //重玩游戏
+        $('.replay').on('click',function(){
+            location.reload();
+        });
+
+        //战斗攻击
+        $('.attack').on('click',function(){
+            $('.block').show();
+            var random=Math.floor((Math.random()*6))+1;
+
+            $('.shai').show(function(){
+                $('.dic').delay(1000).html(random).fadeIn(function(){
+                    $('.shai').fadeOut(200);
+                });
+            });
+
+            var bloodWidth=$('.last-blood1').html();
+            var bloodWidth2=$('.last-blood2').html();
+
+            $('.blood1').delay(2000).animate({width:(bloodWidth-random*10)+"%"},300,function(){
+                $('.last-blood1').html(bloodWidth-random*10);
+                //success
+                if($('.last-blood1').html()<=0){
+                    $('.success').fadeIn(200);
+                }
+                else{
+                    $('.blood2').delay(1000).animate({width:(bloodWidth2-10)+"%"},300,function(){
+                        $('.last-blood2').html(bloodWidth2-10);
+                        $('.block').hide();
+                    });
+                }
+
+            });
+
+        });
+        //战斗返回
+        $('.success').one('click',function(){
+            $('#fight').fadeOut(300);
+            $('#main').show();
+            stage.stage12();
+        })
+    })
+</script>
+</html>

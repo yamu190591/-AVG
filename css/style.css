@@ -1,0 +1,76 @@
+/*loading*/
+.loading {overflow: hidden;width:100%;height: 100%;position: absolute;left: 0;right: 0;bottom: 0;top: 0;z-index: 999;background:black;}
+.loading-text{font-size:0.3rem;color:white;line-height:0.3rem;position: absolute;left:50%;top:6rem;z-index: 10000;width:4rem;margin-left:-2rem;}
+.koudai-logo{position: absolute;left:50%;margin-left:-1rem;top:4rem;width:2rem;}
+.loading-bar{height:0.3rem;background:white;}
+
+*{margin:0;padding:0;}
+textarea{border:0;}
+body{background:black;color:white;font-size: 0.4rem;overflow: hidden;}
+#main{position: absolute;top:0;left:0;width:100%;height:100%;}
+.stage{display: none;}
+.text{width:7rem;height:3.8rem;border:1px solid white;left:50%;margin-left:-3.5rem;top:60%;position:absolute;background:rgba(0,0,0,0.5);z-index: 50;}
+.text>div{position:absolute;width:6.4rem;height:3.2rem;background:none;font-size:0.4rem;padding:0.3rem;color:white;display:none;}
+.text>div:first-child{display: block;}
+.select-div{position: absolute;left:50%;margin-left:-2rem;top:75%;z-index:50;display: none;}
+.select-div02{top:68%;margin-left:-3rem;}
+.select-div03{margin-left: -3.6rem;  top: 65%;}
+.select-div04{margin-left: -3rem;top: 66%;}
+.han{position: absolute;left:60%;top:4rem;width:0.5rem;z-index: 50;opacity:0;}
+.bg-shilaimu{position: absolute;left:50%;margin-left:-2rem;top:3rem;width:4rem;height:3rem;z-index: 50;}
+.form span,.form-grow span{border:1px solid white;text-align: center;display: inline-block;float:left;padding:0.2rem;margin:0.2rem;}
+.form-grow span{margin:0.1rem;}
+.tap{position: absolute;bottom:0;right:0.5rem;font-size: 0.4rem;color:white;display: none;}
+.flashOnOff{animation:flashOnOff 1s linear infinite}
+.bg{position: absolute;top:0;height:100%;display: none;}
+.bg01{left:0;}
+.bg02{right:0;}
+.bg03{left:0;z-index: 51;}
+.gameover,.gamestart{position: absolute;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.7);font-size: 0.4rem;color:white;z-index: 51;display: none;text-align: center;line-height:4rem;}
+.gamestart{display: block;}
+.replay,.start{position:absolute;top:50%;left:50%;margin-left:-1rem;margin-top:-1rem;border:1px solid white;color:white;padding:0.2rem;line-height: 1rem;}
+
+.friend{position: absolute;top:2rem; width:2rem;display: none;}
+.friend01{left:0.5rem;width:4rem;}
+.friend02{right:1rem;top: 2.3rem;}
+.hand{position: absolute;top:3rem;width:0.6rem;display: none;animation: Updowm 1s infinite;-webkit-animation: Updowm 1s infinite;}
+.hand1{left:2.1rem;}
+.hand2{right:1.7rem;}
+.heart{position: absolute;width:0.5rem;left:50%;top:40%;opacity:0;}
+.shake{animation:Shake 0.3s infinite;}
+
+/*战斗*/
+#fight{width:100%;height:100%;position:absolute;top:0;left:0;background:black;display: none;}
+.monster{position:absolute;width:3.8rem;top:0.2rem;left:50%;margin-left:-1.9rem;}
+.blood{width:100%;height:0.5rem;background:red;left:0;position:absolute;border-radius: 0.3rem;}
+.blood1{top:4rem;}
+.blood2{bottom:5rem;}
+.blood p:first-child{position:absolute;left:0;top:-0.5rem;color:white;}
+.blood p:last-child{position:absolute;right:0;top:0.5rem;color:white;}
+.fight-buttons{position: absolute;bottom:0.5rem;height:4rem;width:6rem;left:50%;margin-left:-3rem;}
+.fight-buttons button{background:none;color:white;padding:0.2rem;width:2.7rem;height:1.4rem;font-size: 0.4rem;float:left;margin:0.1rem;}
+.fight-buttons button:first-child{height:3rem;}
+.shai{position: absolute;top:5rem;left:50%;margin-left:-1rem;width:2rem;display: none;}
+.dic{position:absolute;top:5.5rem;left:50%;margin-left:-0.5rem;width:1rem;height:1rem;text-align:center;display: none;}
+.shai-fly{animation:Shai 2s linear;}
+.success,.block{position:absolute;top:0;left:0;width:100%;height:100%;text-align: center;line-height:10rem;display: none;font-size: 1rem;background:rgba(0,0,0,0.7)}
+.block{background:none;}
+
+@keyframes flashOnOff {
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes Updowm{
+    0%{top:3rem;}
+    50%{top:3.3rem;}
+    100%{top:3rem;}
+}
+
+@keyframes Shake{
+    0%{left:-0.1rem;}
+    25%{left:0;}
+    50%{left:0.1rem;}
+    100%{left:0;}
+
+}
